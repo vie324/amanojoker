@@ -13,7 +13,14 @@ export const SITE = {
   x: "https://x.com/amanojoker",
   xHandle: "@amanojoker",
   eggs: "https://eggs.mu/artist/amanojoker",
+  appleMusic: "https://music.apple.com/jp/artist/%E5%A4%A9%E9%82%AA%E9%AC%BC/1695593445",
   contactForm: "https://tayori.com/form/eaefde4fa326d909b0c949c1ef20dc9597de0325",
+} as const;
+
+/** バンド写真(public/images/) */
+export const BAND_PHOTOS = {
+  stand: "/images/band-stand.jpg", // 全員・立ち
+  vivid: "/images/band-vivid.jpg", // 全員・ビビッド
 } as const;
 
 export const CONCEPT = {
@@ -29,6 +36,7 @@ export type Member = {
   partEn: string;
   kanji: string; // 一文字紋
   note: string;
+  photo: string; // public/images/members/
 };
 
 export const MEMBERS: Member[] = [
@@ -39,6 +47,7 @@ export const MEMBERS: Member[] = [
     partEn: "GUITAR / VOCAL",
     kanji: "唄",
     note: "1993年10月24日生まれ。バンドの結成者にして参謀。しぶとい歌としぶといギターを弾き倒す。HOTLINE'17 / '18 ベストギター賞。",
+    photo: "/images/members/uno.jpg",
   },
   {
     name: "バーボン了",
@@ -47,6 +56,7 @@ export const MEMBERS: Member[] = [
     partEn: "BASS",
     kanji: "底",
     note: "底で唸る低音番長。タンゴもジャズも飲み込むグルーヴで、天邪鬼の屋台骨を支える。",
+    photo: "/images/members/bourbon.jpg",
   },
   {
     name: "アトランティス仁誠",
@@ -55,6 +65,7 @@ export const MEMBERS: Member[] = [
     partEn: "DRUMS",
     kanji: "轟",
     note: "2018年1月加入。沈まぬ大陸の名を持つ男。骨太のビートで温故知新のエンジンを回す。",
+    photo: "/images/members/atlantis.jpg",
   },
 ];
 
@@ -101,6 +112,18 @@ export const HISTORY: HistoryItem[] = [
     month: "05",
     title: "CD「Late Show」リリース",
     body: "6曲入り自主制作CD。ライブ会場ほかで発売中。",
+  },
+  {
+    year: "2023",
+    month: "03",
+    title: "「Late Show - EP」配信リリース",
+    body: "Apple Musicほか各サブスクで配信開始。手売りの6曲が全国区へ。",
+  },
+  {
+    year: "2023",
+    month: "08",
+    title: "「Hokey Pokers - EP」「捨てたはずの街」連続配信リリース",
+    body: "新曲6曲入りEPと、代名詞的シングルを立て続けに配信。MVも公開。",
   },
   {
     year: "2026",

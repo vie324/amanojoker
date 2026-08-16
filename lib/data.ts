@@ -1,6 +1,6 @@
 import { getPublicClient } from "./supabase/public";
-import { seedDiary, seedLives, seedNews, seedSongs } from "./seed";
-import type { DiaryPost, LiveEvent, News, Song } from "./types";
+import { seedDiary, seedLives, seedNews, seedReleases, seedSongs } from "./seed";
+import type { DiaryPost, LiveEvent, News, Release, Song } from "./types";
 
 /**
  * 公開ページのデータ取得層。
@@ -30,6 +30,18 @@ export async function getNews(limit?: number): Promise<News[]> {
     return data as News[];
   });
   return limit ? items.slice(0, limit) : items;
+}
+
+export async function getReleases(): Promise<Release[]> {
+  return fetchOr(seedReleases, async (sb) => {
+    const { data, error } = await sb
+      .from("releases")
+      .select("*")
+      .eq("is_published", true)
+      .order("sort_order", { ascending: true });
+    if (error) throw error;
+    return data as Release[];
+  });
 }
 
 export async function getSongs(): Promise<Song[]> {

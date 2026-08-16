@@ -1,4 +1,6 @@
 import Link from "next/link";
+/* eslint-disable @next/next/no-img-element */
+import Image from "next/image";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import SectionHeading from "@/components/SectionHeading";
@@ -6,22 +8,26 @@ import TateText from "@/components/TateText";
 import XIcon from "@/components/XIcon";
 import { DiaryCard, LiveRow, NewsRow, SongRow } from "@/components/cards";
 import { Parallax, Reveal, SlideIn } from "@/components/motion";
-import { getDiaryPosts, getLives, getNews, getSongs } from "@/lib/data";
-import { isUpcoming } from "@/lib/format";
-import { CONCEPT, SITE } from "@/lib/site";
+import { getDiaryPosts, getLives, getNews, getReleases, getSongs } from "@/lib/data";
+import { fmtDot, isUpcoming } from "@/lib/format";
+import { BAND_PHOTOS, CONCEPT, SITE } from "@/lib/site";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [news, songs, lives, diary] = await Promise.all([
+  const [news, songs, lives, diary, releases] = await Promise.all([
     getNews(4),
     getSongs(),
     getLives(),
     getDiaryPosts(3),
+    getReleases(),
   ]);
 
   const upcoming = lives.filter((l) => isUpcoming(l.date)).slice(-2).reverse();
   const past = lives.filter((l) => !isUpcoming(l.date)).slice(0, 3);
+  const latestRelease =
+    [...releases].sort((a, b) => (b.release_date ?? "").localeCompare(a.release_date ?? ""))[0] ??
+    null;
 
   return (
     <>
@@ -105,6 +111,25 @@ export default async function HomePage() {
               </ul>
             </Reveal>
             <Reveal delay={0.4}>
+              <div className="relative mt-14 max-w-2xl">
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-2.5 -left-2.5 h-full w-full border border-shu/40"
+                />
+                <Image
+                  src={BAND_PHOTOS.vivid}
+                  alt="天邪鬼 メンバー3人(バーボン了・アトランティス仁誠・ウノ太一)"
+                  width={1600}
+                  height={899}
+                  className="relative border border-line object-cover"
+                />
+                <p className="mt-3 flex items-center justify-between font-mono text-[9px] tracking-[0.3em] text-ash">
+                  <span>AMANOJOKER — TOKYO ⇄ KANAGAWA</span>
+                  <span className="text-shu">天邪鬼</span>
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.45}>
               <Link
                 href="/profile"
                 className="group mt-12 inline-flex items-center gap-3 font-mono text-xs tracking-[0.25em] text-washi"
@@ -122,6 +147,70 @@ export default async function HomePage() {
       {/* ============ MUSIC ============ */}
       <section className="mx-auto max-w-7xl px-5 py-24 md:px-8 md:py-32">
         <SectionHeading index="03" en="Music" ja="楽曲紹介" />
+
+        {latestRelease && (
+          <Reveal delay={0.05}>
+            <div className="mb-14 grid gap-8 border border-line bg-kuro/40 p-6 md:grid-cols-[15rem_1fr] md:p-8">
+              <div className="relative w-full max-w-[15rem]">
+                <span aria-hidden="true" className="absolute -top-2 -left-2 h-full w-full border border-shu/40" />
+                {latestRelease.cover_url && (
+                  <img
+                    src={latestRelease.cover_url}
+                    alt={`${latestRelease.title} ジャケット`}
+                    width={600}
+                    height={600}
+                    className="relative aspect-square w-full border border-line object-cover"
+                  />
+                )}
+              </div>
+              <div className="flex flex-col">
+                <p className="flex flex-wrap items-center gap-3 font-mono text-[10px] tracking-[0.35em] text-shu">
+                  LATEST RELEASE
+                  {latestRelease.release_date && (
+                    <span className="text-smoke">{fmtDot(latestRelease.release_date)}</span>
+                  )}
+                  <span className="border border-line-2 px-2 py-0.5 text-smoke">
+                    {latestRelease.type.toUpperCase()}
+                  </span>
+                </p>
+                <h3 className="mt-4 font-mincho text-3xl font-extrabold text-washi md:text-4xl">
+                  {latestRelease.title}
+                </h3>
+                {latestRelease.description && (
+                  <p className="mt-4 max-w-xl text-xs leading-[1.9] text-smoke">
+                    {latestRelease.description}
+                  </p>
+                )}
+                <div className="mt-auto flex flex-wrap items-center gap-5 pt-6">
+                  {latestRelease.apple_url && (
+                    <a
+                      href={latestRelease.apple_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative overflow-hidden border border-washi/40 px-6 py-3 font-mono text-[11px] tracking-[0.25em] text-washi transition-colors hover:border-shu"
+                    >
+                      <span className="absolute inset-0 -translate-x-full bg-shu transition-transform duration-400 ease-out group-hover:translate-x-0" />
+                      <span className="relative transition-colors group-hover:text-sumi">
+                        ♪ APPLE MUSIC で聴く
+                      </span>
+                    </a>
+                  )}
+                  {latestRelease.youtube_url && (
+                    <a
+                      href={latestRelease.youtube_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-sweep font-mono text-[11px] tracking-[0.25em] text-washi/80 hover:text-washi"
+                    >
+                      ▶ MVを観る
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        )}
+
         <Reveal delay={0.1}>
           <div className="border-t border-line">
             {songs.slice(0, 3).map((song, i) => (
@@ -271,6 +360,24 @@ export default async function HomePage() {
                 コンタクト
               </Link>
               まで。
+            </p>
+            <p className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
+              <a
+                href={SITE.appleMusic}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-sweep font-mono text-[11px] tracking-[0.25em] text-washi/70 hover:text-washi"
+              >
+                ♪ APPLE MUSIC
+              </a>
+              <a
+                href={SITE.eggs}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-sweep font-mono text-[11px] tracking-[0.25em] text-washi/70 hover:text-washi"
+              >
+                ◉ EGGS
+              </a>
             </p>
           </Reveal>
         </div>

@@ -31,8 +31,25 @@ export type Song = {
   duration: string | null;
   tags: string[];
   eggs_url: string | null;
-  youtube_url: string | null;
+  youtube_url: string | null; // MV (YouTube)
+  apple_url: string | null; // Apple Music トラックURL
   accent_color: string | null;
+  sort_order: number;
+  is_published: boolean;
+};
+
+export type Release = {
+  id: string;
+  slug: string;
+  title: string;
+  type: "single" | "ep" | "album" | "demo" | string;
+  release_date: string | null; // YYYY-MM-DD
+  cover_url: string | null;
+  apple_url: string | null;
+  eggs_url: string | null;
+  youtube_url: string | null;
+  description: string | null;
+  tracks: string[];
   sort_order: number;
   is_published: boolean;
 };

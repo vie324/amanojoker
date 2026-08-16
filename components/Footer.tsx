@@ -88,6 +88,19 @@ export default function Footer() {
               </li>
               <li>
                 <a
+                  href={SITE.appleMusic}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-sm text-washi/80 transition-colors hover:text-shu"
+                >
+                  <span className="flex h-4 w-4 items-center justify-center rounded-full border border-current text-[9px]">
+                    ♪
+                  </span>
+                  <span className="font-mono text-xs tracking-[0.15em]">Apple Music — 配信中</span>
+                </a>
+              </li>
+              <li>
+                <a
                   href={SITE.eggs}
                   target="_blank"
                   rel="noopener noreferrer"
