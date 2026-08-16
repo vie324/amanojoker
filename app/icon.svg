@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0b0908"/>
+  <circle cx="32" cy="32" r="23" fill="none" stroke="#e63a21" stroke-width="3.4" stroke-dasharray="130 4 8 3" stroke-linecap="round" transform="rotate(-8 32 32)"/>
+  <text x="32" y="43.5" font-family="'Hiragino Mincho ProN','Yu Mincho',serif" font-size="31" font-weight="800" fill="#e63a21" text-anchor="middle">鬼</text>
+</svg>

@@ -1,0 +1,364 @@
+@import "tailwindcss";
+
+/* ============================================================
+   天邪鬼 AMANOJOKER — Design System
+   「→NEW OLD←」 墨黒 × 朱 × 生成り。
+   60-70s のロックポスターと現代エディトリアルの混血。
+   ============================================================ */
+
+@theme {
+  /* --- palette --- */
+  --color-sumi: #0b0908; /* 墨 — base black */
+  --color-kuro: #14100e; /* panel black */
+  --color-kuro-2: #1c1614; /* raised panel */
+  --color-line: #2b221d; /* hairline borders */
+  --color-line-2: #3c2f27;
+  --color-washi: #f0e9dc; /* 生成り — paper white */
+  --color-smoke: #a3948a; /* muted text */
+  --color-ash: #6b5f57; /* dimmed */
+  --color-shu: #e63a21; /* 朱 — vermilion */
+  --color-shu-bright: #ff5638;
+  --color-blood: #7e1410; /* deep red */
+  --color-kin: #c9a227; /* 金 — gold accent */
+
+  /* --- type --- */
+  --font-display: "Anton", "Arial Narrow", sans-serif;
+  --font-mincho: "Shippori Mincho B1", "Hiragino Mincho ProN", serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
+  --font-mono: "Space Mono", "Menlo", monospace;
+
+  /* --- motion --- */
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-marquee-slow: marquee 48s linear infinite;
+  --animate-spin-slow: spin 24s linear infinite;
+  --animate-pulse-ember: pulse-ember 6s ease-in-out infinite;
+  --animate-flicker: flicker 5s linear infinite;
+
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-ember {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  3% {
+    opacity: 0.6;
+  }
+  6% {
+    opacity: 1;
+  }
+  7% {
+    opacity: 0.4;
+  }
+  8% {
+    opacity: 1;
+  }
+  51% {
+    opacity: 1;
+  }
+  52% {
+    opacity: 0.7;
+  }
+  54% {
+    opacity: 1;
+  }
+}
+
+@keyframes glitch-shift {
+  0%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(15% 0 60% 0);
+    transform: translate(-3px, 2px);
+  }
+  40% {
+    clip-path: inset(50% 0 20% 0);
+    transform: translate(3px, -2px);
+  }
+  60% {
+    clip-path: inset(80% 0 5% 0);
+    transform: translate(-2px, 1px);
+  }
+  80% {
+    clip-path: inset(5% 0 85% 0);
+    transform: translate(2px, -1px);
+  }
+}
+
+/* ============ base ============ */
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-sumi);
+  color: var(--color-washi);
+  font-family: var(--font-body);
+  font-feature-settings: "palt";
+  letter-spacing: 0.02em;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-shu);
+  color: var(--color-sumi);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-sumi);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-2);
+  border: 2px solid var(--color-sumi);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-shu);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-shu);
+  outline-offset: 3px;
+}
+
+/* ============ utilities ============ */
+
+/* film grain — fixed full-screen overlay */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: -100%;
+  z-index: 90;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  animation: grain-jitter 0.9s steps(4) infinite;
+}
+
+@keyframes grain-jitter {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-2%, 1%);
+  }
+  50% {
+    transform: translate(1%, -2%);
+  }
+  75% {
+    transform: translate(-1%, 2%);
+  }
+  100% {
+    transform: translate(2%, -1%);
+  }
+}
+
+/* vertical Japanese text
+   Google Fonts の日本語 Web フォントは縦書きメトリクス(vhea/vmtx)が
+   削られていて縦組みが崩れるため、縦書きは端末のネイティブ明朝で組む */
+.tate {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+  font-family:
+    "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Yu Mincho", "YuMincho",
+    "Noto Serif CJK JP", "Noto Serif JP", "BIZ UDMincho", serif;
+}
+
+/* outlined display text */
+.text-stroke {
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-washi) 40%, transparent);
+  color: transparent;
+}
+.text-stroke-shu {
+  -webkit-text-stroke: 1px var(--color-shu);
+  color: transparent;
+}
+
+/* glitch hover — apply to elements with data-text attribute */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.glitch:hover::before {
+  opacity: 0.8;
+  color: var(--color-shu);
+  animation: glitch-shift 0.45s steps(2) infinite;
+}
+.glitch:hover::after {
+  opacity: 0.6;
+  color: var(--color-kin);
+  animation: glitch-shift 0.45s steps(2) reverse infinite;
+}
+
+/* dashed ticket edge */
+.ticket-notch {
+  --notch: radial-gradient(circle at center, transparent 7px, var(--color-kuro) 7.5px);
+  position: relative;
+}
+
+/* diagonal hazard stripes (thin decorative rules) */
+.hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-shu) 0 2px,
+    transparent 2px 8px
+  );
+}
+
+/* paper-texture inverted section */
+.washi-block {
+  background-color: var(--color-washi);
+  color: var(--color-sumi);
+}
+
+/* long-form article typography (diary / song notes) */
+.prose-joker {
+  line-height: 2.1;
+  font-size: 0.95rem;
+}
+.prose-joker p {
+  margin-block: 1.4em;
+}
+.prose-joker h2 {
+  font-family: var(--font-mincho);
+  font-weight: 800;
+  font-size: 1.35rem;
+  margin-block: 2.2em 0.9em;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--color-shu);
+}
+.prose-joker h3 {
+  font-family: var(--font-mincho);
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-block: 1.8em 0.7em;
+}
+.prose-joker a {
+  color: var(--color-shu-bright);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.prose-joker blockquote {
+  border-left: 2px solid var(--color-line-2);
+  padding-left: 1.2em;
+  color: var(--color-smoke);
+  font-family: var(--font-mincho);
+  margin-block: 1.6em;
+}
+.prose-joker ul,
+.prose-joker ol {
+  padding-left: 1.4em;
+  margin-block: 1.2em;
+}
+.prose-joker ul {
+  list-style: none;
+}
+.prose-joker ul li {
+  position: relative;
+  margin-block: 0.5em;
+}
+.prose-joker ul li::before {
+  content: "―";
+  position: absolute;
+  left: -1.4em;
+  color: var(--color-shu);
+}
+.prose-joker ol {
+  list-style: decimal;
+}
+.prose-joker hr {
+  border: none;
+  border-top: 1px solid var(--color-line);
+  margin-block: 2.5em;
+}
+.prose-joker code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-kuro-2);
+  padding: 0.15em 0.45em;
+  border-radius: 3px;
+}
+.prose-joker img {
+  max-width: 100%;
+  border: 1px solid var(--color-line);
+}
+.prose-joker strong {
+  color: var(--color-washi);
+  font-weight: 700;
+}
+
+/* underline sweep for nav links */
+.link-sweep {
+  position: relative;
+}
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: var(--color-shu);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease-editorial);
+}
+.link-sweep:hover::after,
+.link-sweep[aria-current="page"]::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
