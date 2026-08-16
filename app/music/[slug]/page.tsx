@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Reveal, StaggerChars } from "@/components/motion";
 import TateText from "@/components/TateText";
+import YouTubeEmbed from "@/components/YouTubeEmbed";
 import { getSong, getSongs } from "@/lib/data";
 
 export const revalidate = 60;
@@ -110,20 +111,45 @@ export default async function SongPage({ params }: Props) {
           </div>
         </Reveal>
 
-        {(song.eggs_url || song.youtube_url) && (
+        {song.youtube_url && (
+          <Reveal delay={0.2}>
+            <div className="mt-14 border-t border-line pt-10">
+              <p className="mb-6 font-mono text-[10px] tracking-[0.35em] text-shu">
+                (MUSIC VIDEO)
+              </p>
+              <YouTubeEmbed
+                url={song.youtube_url}
+                title={`天邪鬼「${song.title}」MV`}
+                className="max-w-3xl"
+              />
+            </div>
+          </Reveal>
+        )}
+
+        {(song.apple_url || song.eggs_url || song.youtube_url) && (
           <Reveal delay={0.25}>
-            <div className="mt-12 flex flex-wrap gap-4">
-              {song.eggs_url && (
+            <div className="mt-12 flex flex-wrap items-center gap-x-5 gap-y-4">
+              {song.apple_url && (
                 <a
-                  href={song.eggs_url}
+                  href={song.apple_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative overflow-hidden border border-washi/40 px-7 py-3 font-mono text-xs tracking-[0.25em] text-washi transition-colors hover:border-shu"
                 >
                   <span className="absolute inset-0 -translate-x-full bg-shu transition-transform duration-400 ease-out group-hover:translate-x-0" />
                   <span className="relative transition-colors group-hover:text-sumi">
-                    ▶ EGGS で聴く
+                    ♪ APPLE MUSIC で聴く
                   </span>
+                </a>
+              )}
+              {song.eggs_url && (
+                <a
+                  href={song.eggs_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="link-sweep font-mono text-xs tracking-[0.25em] text-washi/80 hover:text-washi"
+                >
+                  ◉ EGGS
                 </a>
               )}
               {song.youtube_url && (
@@ -133,7 +159,7 @@ export default async function SongPage({ params }: Props) {
                   rel="noopener noreferrer"
                   className="link-sweep font-mono text-xs tracking-[0.25em] text-washi/80 hover:text-washi"
                 >
-                  ▶ YOUTUBE
+                  ▶ YOUTUBE で開く
                 </a>
               )}
             </div>

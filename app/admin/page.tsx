@@ -5,9 +5,10 @@ import { fmtDot } from "@/lib/format";
 export default async function AdminDashboard() {
   const { sb } = await requireUser();
 
-  const [news, diary, songs, lives, messages] = await Promise.all([
+  const [news, diary, releases, songs, lives, messages] = await Promise.all([
     sb.from("news").select("id", { count: "exact", head: true }),
     sb.from("diary_posts").select("id", { count: "exact", head: true }),
+    sb.from("releases").select("id", { count: "exact", head: true }),
     sb.from("songs").select("id", { count: "exact", head: true }),
     sb.from("live_events").select("id", { count: "exact", head: true }),
     sb
@@ -20,6 +21,7 @@ export default async function AdminDashboard() {
   const stats = [
     { label: "お知らせ", en: "NEWS", count: news.count ?? 0, href: "/admin/news" },
     { label: "日記", en: "DIARY", count: diary.count ?? 0, href: "/admin/diary" },
+    { label: "リリース", en: "RELEASES", count: releases.count ?? 0, href: "/admin/releases" },
     { label: "楽曲", en: "SONGS", count: songs.count ?? 0, href: "/admin/songs" },
     { label: "ライブ", en: "LIVE", count: lives.count ?? 0, href: "/admin/live" },
   ];
@@ -31,7 +33,7 @@ export default async function AdminDashboard() {
         ようこそ、コントロールルームへ。各コンテンツはここから編集できます。
       </p>
 
-      <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-5">
         {stats.map((s) => (
           <Link
             key={s.href}

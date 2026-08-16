@@ -13,6 +13,7 @@ const ADMIN_NAV = [
   { href: "/admin", label: "ダッシュボード", en: "DASHBOARD" },
   { href: "/admin/news", label: "お知らせ", en: "NEWS" },
   { href: "/admin/diary", label: "日記", en: "DIARY" },
+  { href: "/admin/releases", label: "リリース", en: "RELEASES" },
   { href: "/admin/songs", label: "楽曲", en: "SONGS" },
   { href: "/admin/live", label: "ライブ", en: "LIVE" },
   { href: "/admin/messages", label: "受信箱", en: "INBOX" },

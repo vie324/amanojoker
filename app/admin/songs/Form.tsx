@@ -53,12 +53,15 @@ export default function SongForm({
           </div>
         </Field>
       </div>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-3">
+        <Field label="APPLE MUSIC URL" hint="トラックURL">
+          <Input name="apple_url" type="url" defaultValue={item?.apple_url ?? ""} placeholder="https://music.apple.com/jp/album/...?i=..." />
+        </Field>
+        <Field label="YOUTUBE URL / MV" hint="設定するとMVが埋め込まれる">
+          <Input name="youtube_url" type="url" defaultValue={item?.youtube_url ?? ""} placeholder="https://youtube.com/watch?v=..." />
+        </Field>
         <Field label="EGGS URL">
           <Input name="eggs_url" type="url" defaultValue={item?.eggs_url ?? ""} placeholder="https://eggs.mu/..." />
-        </Field>
-        <Field label="YOUTUBE URL">
-          <Input name="youtube_url" type="url" defaultValue={item?.youtube_url ?? ""} placeholder="https://youtube.com/..." />
         </Field>
       </div>
       <div className="grid gap-6 md:grid-cols-2">

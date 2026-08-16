@@ -24,6 +24,7 @@ function payloadFrom(formData: FormData) {
       .filter(Boolean),
     eggs_url: String(formData.get("eggs_url") ?? "").trim() || null,
     youtube_url: String(formData.get("youtube_url") ?? "").trim() || null,
+    apple_url: String(formData.get("apple_url") ?? "").trim() || null,
     accent_color: String(formData.get("accent_color") ?? "").trim() || "#e63a21",
     sort_order: sortOrder ? Number(sortOrder) : 0,
     is_published: formData.get("is_published") === "on",

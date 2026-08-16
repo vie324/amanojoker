@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import Marquee from "@/components/Marquee";
 import TateText from "@/components/TateText";
 import { Parallax, Reveal, SlideIn } from "@/components/motion";
-import { CONCEPT, HISTORY, MEMBERS, SITE } from "@/lib/site";
+import { BAND_PHOTOS, CONCEPT, HISTORY, MEMBERS, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "プロフィール",
@@ -64,6 +65,22 @@ export default function ProfilePage() {
               ))}
             </ul>
           </Reveal>
+          <Reveal delay={0.35}>
+            <figure className="relative mt-14 max-w-3xl">
+              <span aria-hidden="true" className="absolute -top-3 -right-3 h-full w-full border border-blood/30" />
+              <Image
+                src={BAND_PHOTOS.stand}
+                alt="天邪鬼 集合写真 — 左からバーボン了(ベース)、アトランティス仁誠(ドラムス)、ウノ太一(ギター&ボーカル)"
+                width={1600}
+                height={899}
+                className="relative border border-sumi/20 object-cover"
+              />
+              <figcaption className="mt-3 flex items-center justify-between font-mono text-[9px] tracking-[0.3em] text-sumi/50">
+                <span>L to R — RYO BOURBON / JINSEI ATLANTIS / TAICHI UNO</span>
+                <span className="text-blood/70">天邪鬼</span>
+              </figcaption>
+            </figure>
+          </Reveal>
         </div>
         <Marquee
           className="border-t border-sumi/15 py-3"
@@ -85,23 +102,34 @@ export default function ProfilePage() {
         <div className="grid gap-5 md:grid-cols-3 md:gap-6">
           {MEMBERS.map((m, i) => (
             <Reveal key={m.nameEn} delay={0.12 * i}>
-              <article className="group relative flex h-full flex-col overflow-hidden border border-line bg-kuro/40 p-7 transition-all duration-500 hover:-translate-y-1.5 hover:border-shu/60 md:p-8">
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -top-10 -right-8 font-mincho text-[11rem] leading-none font-extrabold text-washi/[0.04] transition-colors duration-500 select-none group-hover:text-shu/[0.08]"
-                >
-                  {m.kanji}
-                </span>
-                <div className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-shu/70 transition-transform duration-700 group-hover:rotate-[356deg]">
-                  <span className="font-mincho text-4xl font-extrabold text-shu">{m.kanji}</span>
+              <article className="group relative flex h-full flex-col overflow-hidden border border-line bg-kuro/40 transition-all duration-500 hover:-translate-y-1.5 hover:border-shu/60">
+                <div className="relative overflow-hidden">
+                  <Image
+                    src={m.photo}
+                    alt={`${m.name}(${m.part})`}
+                    width={600}
+                    height={750}
+                    className="aspect-[4/5] w-full object-cover saturate-[0.88] transition-all duration-700 group-hover:scale-[1.03] group-hover:saturate-100"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-kuro/90 to-transparent"
+                  />
+                  <span className="absolute top-4 right-4 flex h-12 w-12 rotate-[-4deg] items-center justify-center rounded-full border-2 border-shu bg-sumi/60 font-mincho text-xl font-extrabold text-shu backdrop-blur-sm transition-transform duration-700 group-hover:rotate-[352deg]">
+                    {m.kanji}
+                  </span>
+                  <p className="absolute bottom-4 left-5 font-mono text-[10px] tracking-[0.35em] text-washi/90">
+                    {m.partEn}
+                  </p>
                 </div>
-                <p className="mt-7 font-mono text-[10px] tracking-[0.35em] text-shu">{m.partEn}</p>
-                <h3 className="mt-2 font-mincho text-2xl font-extrabold text-washi">{m.name}</h3>
-                <p className="mt-1 font-mono text-[10px] tracking-[0.25em] text-ash">{m.nameEn}</p>
-                <p className="mt-5 text-xs leading-[1.9] text-smoke">{m.note}</p>
-                <p className="mt-auto pt-6 font-mono text-[10px] tracking-[0.2em] text-ash">
-                  ── {m.part}
-                </p>
+                <div className="flex flex-1 flex-col p-6 md:p-7">
+                  <h3 className="font-mincho text-2xl font-extrabold text-washi">{m.name}</h3>
+                  <p className="mt-1 font-mono text-[10px] tracking-[0.25em] text-ash">{m.nameEn}</p>
+                  <p className="mt-4 text-xs leading-[1.9] text-smoke">{m.note}</p>
+                  <p className="mt-auto pt-5 font-mono text-[10px] tracking-[0.2em] text-ash">
+                    ── {m.part}
+                  </p>
+                </div>
               </article>
             </Reveal>
           ))}
@@ -143,17 +171,25 @@ export default function ProfilePage() {
         <Reveal>
           <div className="flex flex-col items-center gap-6 border border-line bg-kuro/30 px-6 py-12 text-center md:py-16">
             <p className="font-mono text-[10px] tracking-[0.4em] text-smoke">LISTEN &amp; FOLLOW</p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4">
               <a
-                href={SITE.eggs}
+                href={SITE.appleMusic}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group relative overflow-hidden border border-washi/40 px-7 py-3 font-mono text-xs tracking-[0.25em] text-washi transition-colors hover:border-shu"
               >
                 <span className="absolute inset-0 -translate-x-full bg-shu transition-transform duration-400 ease-out group-hover:translate-x-0" />
                 <span className="relative transition-colors group-hover:text-sumi">
-                  EGGS で聴く →
+                  ♪ APPLE MUSIC で聴く →
                 </span>
+              </a>
+              <a
+                href={SITE.eggs}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="link-sweep font-mono text-xs tracking-[0.25em] text-washi/80 hover:text-washi"
+              >
+                ◉ EGGS で試聴
               </a>
               <a
                 href={SITE.x}
